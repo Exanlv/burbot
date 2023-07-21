@@ -8,7 +8,7 @@ COPY ./index.php ./.en[v] ./composer.* /usr/src/burbot/
 WORKDIR /usr/src/burbot
 
 RUN apt-get update
-RUN apt-get install php-cli php-xml composer php-bcmath -y
+RUN apt-get install php-cli php-xml composer php-bcmath php-curl -y
 RUN composer install
 RUN composer dump-autoload -o
 

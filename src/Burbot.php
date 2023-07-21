@@ -25,7 +25,7 @@ class Burbot
                 return;
             }
 
-            $this->timers[$userId] = Loop::get()->addTimer(5, function () use ($event, $userId) {
+            $this->timers[$userId] = Loop::get()->addTimer(300, function () use ($event, $userId) {
                 $this->discord->rest->guild->modifyMember(
                     $event->guild_id,
                     $userId,
