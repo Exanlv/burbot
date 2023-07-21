@@ -16,7 +16,7 @@ class Burbot
     ) {
         $discord->gateway->events->on(Events::VOICE_STATE_UPDATE, function (VoiceStateUpdate $event) {
             $userId = &$event->member->user->id;
-            if ($event->deaf) {
+            if (!$event->deaf) {
                 if (isset($this->timers[$userId])) {
                     Loop::get()->cancelTimer($this->timers[$userId]);
                     unset($this->timers[$userId]);
