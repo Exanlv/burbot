@@ -1,0 +1,20 @@
+{
+    "name": "exan/burbot",
+    "type": "project",
+    "require": {
+        "exan/fenrir": "^0.8.0",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Exan\\Burbot\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Exanlv",
+            "email": "exan@landviz.nl"
+        }
+    ]
+}
