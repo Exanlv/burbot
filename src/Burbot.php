@@ -6,6 +6,7 @@ use Ragnarok\Fenrir\Constants\Events;
 use Ragnarok\Fenrir\Discord;
 use Ragnarok\Fenrir\Gateway\Events\VoiceStateUpdate;
 use React\EventLoop\Loop;
+use Throwable;
 
 class Burbot
 {
@@ -16,7 +17,7 @@ class Burbot
     ) {
         $discord->gateway->events->on(Events::VOICE_STATE_UPDATE, function (VoiceStateUpdate $event) {
             $userId = &$event->member->user->id;
-            if (!$event->deaf) {
+            if (!$event->deaf && !$event->self_deaf) {
                 if (isset($this->timers[$userId])) {
                     Loop::get()->cancelTimer($this->timers[$userId]);
                     unset($this->timers[$userId]);
@@ -30,8 +31,8 @@ class Burbot
                     $event->guild_id,
                     $userId,
                     ['nick' => 'Bur']
-                )->otherwise(function () {
-                    // oops
+                )->otherwise(function (Throwable $e) {
+                    echo $e->getMessage();
                 })->done();
             });
         });
