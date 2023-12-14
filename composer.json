@@ -16,5 +16,8 @@
             "name": "Exanlv",
             "email": "exan@landviz.nl"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    }
 }
