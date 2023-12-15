@@ -112,8 +112,8 @@ class BurifierTest extends TestCase
                 'output' => 'buroder',
             ],
             'It doesnt insert letters to force a bur if non-duplicate vowels follow a b' => [
-                'input' => 'boader',
-                'output' => 'boader',
+                'input' => 'boadep',
+                'output' => 'boadep',
             ],
 
 
@@ -156,6 +156,26 @@ class BurifierTest extends TestCase
                 'input' => 'KURbOB',
                 'output' => 'BURbOB',
             ],
+
+            'It replaces to letters to match to an R' => [
+                'input' => 'Carhara',
+                'output' => 'Burhara',
+            ],
+
+            'It can insert a U' => [
+                'input' => 'Bread',
+                'output' => 'Buread',
+            ],
+
+            'It can insert a U in non-BR context' => [
+                'input' => 'Dread',
+                'output' => 'Buread',
+            ],
+
+            'It prioritizes BR for BR insertion' => [
+                'input' => 'Dreadbread',
+                'output' => 'Dreadburead',
+            ]
         ];
     }
 }

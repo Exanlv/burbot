@@ -2,6 +2,8 @@
 
 namespace Exan\Burbot;
 
+use Exan\Burbot\Exceptions\UnableToBurifyException;
+
 class Burifier
 {
     private array $accents = [
@@ -20,6 +22,9 @@ class Burifier
         }
     }
 
+    /**
+     * @throws UnableToBurifyException
+     */
     public function burify(string $original)
     {
         // Remove accents
@@ -36,6 +41,9 @@ class Burifier
             '/\bbi(?=i)/i',
             '/\bbo(?=o)/i',
             '/\bba(?=a)/i',
+            '/(br)/i',
+            '/([q|w|t|p|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m][e|y|i|o|a]r)/i',
+            '/([q|w|t|p|s|d|f|g|h|j|k|l|z|x|c|v|b|n|m]r)/i',
         ];
 
         $replacements = 0;
@@ -47,6 +55,10 @@ class Burifier
                 1,
                 $replacements
             );
+        }
+
+        if ($replacements === 0) {
+            throw new UnableToBurifyException();
         }
 
         if (mb_strlen($original) + 1 === mb_strlen($replaced)) {
