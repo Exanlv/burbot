@@ -48,7 +48,7 @@ class Burbot
                     $this->discord->rest->guild->modifyMember(
                         $event->guild_id,
                         $userId,
-                        ['nick' => 'Bur']
+                        ['nick' => $burifiedName]
                     )->otherwise(function (Throwable $e) {
                         echo $e->getMessage();
                     })->done();
