@@ -3,4 +3,4 @@ build:
 
 build-run:
 	docker rm --force Burbot; \
-	docker run --env-file .env --name Burbot -d burbot
+	docker run --env-file .env --name Burbot --restart always -d burbot
