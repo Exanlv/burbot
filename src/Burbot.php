@@ -2,6 +2,7 @@
 
 namespace Exan\Burbot;
 
+use Exan\Burbot\Exceptions\UnableToBurifyException;
 use Ragnarok\Fenrir\Constants\Events;
 use Ragnarok\Fenrir\Discord;
 use Ragnarok\Fenrir\Gateway\Events\VoiceStateUpdate;
@@ -33,16 +34,21 @@ class Burbot
             $this->timers[$userId] = Loop::get()->addTimer(300, function () use ($event, $userId) {
                 $this->discord->rest->guild->getMember($event->guild_id, $userId)->then(function (GuildMember $member) use ($event, $userId) {
                     $displayName = $member->nick ?? $member->user->username ?? $member->user->global_name;
-                    $burifiedName = $this->burifier->burify($displayName);
 
-                    if (!str_contains($burifiedName, 'bur') || $displayName === $burifiedName) {
+                    try {
+                        $burifiedName = $this->burifier->burify($displayName);
+                    } catch (UnableToBurifyException) {
+                        $burifiedName = 'Bur';
+                    }
+
+                    if ($displayName === $burifiedName) {
                         $burifiedName = 'Bur';
                     }
 
                     $this->discord->rest->guild->modifyMember(
                         $event->guild_id,
                         $userId,
-                        ['nick' => 'Bur']
+                        ['nick' => $burifiedName]
                     )->otherwise(function (Throwable $e) {
                         echo $e->getMessage();
                     })->done();
